@@ -107,15 +107,16 @@
 # * Richard Pijnenburg <mailto:richard@ispavailability.com>
 #
 class beaver(
-  $ensure        = $beaver::params::ensure,
-  $autoupgrade   = $beaver::params::autoupgrade,
-  $status        = $beaver::params::status,
-  $version       = false,
-  $format        = 'json',
-  $respawn_delay = 3,
-  $max_failure   = 7,
-  $hostname      = $::fqdn,
-  $transport     = 'redis'
+  $ensure           = $beaver::params::ensure,
+  $autoupgrade      = $beaver::params::autoupgrade,
+  $status           = $beaver::params::status,
+  $version          = false,
+  $format           = 'json',
+  $respawn_delay    = 3,
+  $max_failure      = 7,
+  $hostname         = $::fqdn,
+  $transport        = 'redis',
+  $logstash_version = '0'
 ) inherits beaver::params {
 
   #### Validate parameters
@@ -135,6 +136,10 @@ class beaver(
 
   if ! ($format in [ 'json', 'msgpack', 'string', 'raw' ]) {
     fail("\"${format}\" is not a valid format parameter value")
+  }
+
+  if ! ($logstash_version in [ '0', '1' ]) {
+    fail("\"${logstash_version}\" is not a valid logstash_version parameter value")
   }
 
   if ! is_numeric($respawn_delay) {

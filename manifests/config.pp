@@ -35,7 +35,7 @@ class beaver::config {
 
   file_fragment { 'header':
     tag     => "beaver_config_${::fqdn}",
-    content => "[beaver]\n${beaver::config}\n",
+    content => "[beaver]\n${beaver::config}\nlogstash_version = ${::beaver::logstash_version}\n",
     order   => 10
   }
 
