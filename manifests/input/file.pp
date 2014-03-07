@@ -73,7 +73,7 @@ define beaver::input::file(
   }
 
   if ($format != '') {
-    if ! ($format in ['string', 'json', 'json_raw', 'msgpack', 'raw']) {
+    if ! ($format in ['string', 'json', 'json_raw', 'rawjson', 'msgpack', 'raw']) {
       fail("\"${format}\" is not a valid format parameter value")
     } else {
       $opt_format = "format: ${format}\n"
