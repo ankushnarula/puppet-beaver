@@ -51,7 +51,9 @@ define beaver::input::file(
   $format                 = '',
   $exclude                = '',
   $sincedb_write_interval = '',
-  $stat_interval          = ''
+  $stat_interval          = '',
+  $multiline_regex_before = '',
+  $multiline_regex_after  = ''
 ) {
 
   #### Validate parameters
@@ -88,6 +90,12 @@ define beaver::input::file(
     }
   }
 
+  if ($exclude != '') {
+    validate_string($exclude)
+    $opt_exclude = "exclude: ${exclude}\n"
+  }
+
+
   if ($stat_interval != '') {
     if ! is_numeric($stat_interval) {
       fail("\"${stat_interval}\" is not a valid stat_interval parameter value")
@@ -96,13 +104,23 @@ define beaver::input::file(
     }
   }
 
+  if ($multiline_regex_before != '') {
+    validate_string($multiline_regex_before)
+    $opt_ml_before = "multiline_regex_before: ${multiline_regex_before}\n"
+  }
+
+  if ($multiline_regex_after != '') {
+    validate_string($multiline_regex_after)
+    $opt_ml_after = "multiline_regex_after: ${multiline_regex_after}\n"
+  }
+
   validate_string($file)
 
   #### Write config file
 
   file_fragment{"input_file_${name}_${::fqdn}":
     tag     => "beaver_config_${::fqdn}",
-    content => "[${file}]\n${opt_tags}${opt_type}${opt_add_fields}${opt_format}${opt_sincedb_write_interval}${opt_stat_interval}\n",
+    content => "[${file}]\n${opt_tags}${opt_type}${opt_add_fields}${opt_format}${opt_sincedb_write_interval}${opt_stat_interval}${opt_exclude}${opt_ml_before}${opt_ml_after}\n",
     order   => 30
   }
 
