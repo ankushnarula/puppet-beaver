@@ -50,7 +50,7 @@ class beaver::params {
     }
     'Debian', 'Ubuntu': {
       # main application
-      $package = [ 'beaver' ]
+      $package = [ 'Beaver' ]
     }
     default: {
       fail("\"${module_name}\" provides no package default value
